@@ -43,13 +43,13 @@ const TaskItem: React.FC<TaskItemProps> = ({
         <button
           onClick={handleToggle}
           disabled={isUpdating}
-          className="mr-2 px-2 py-1 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold	text-base	rounded"
+          className="mr-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold	text-base	rounded"
         >
           {isUpdating ? "Updating..." : "TOGGLE"}
         </button>
         <button
           onClick={handleDelete}
-          className="px-2 py-1 bg-gradient-to-r bg-red-500 text-white font-bold	text-base rounded"
+          className="px-2 py-2 bg-gradient-to-r bg-red-500 text-white font-bold	text-base rounded"
         >
           DELETE
         </button>

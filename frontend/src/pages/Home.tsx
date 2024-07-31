@@ -6,7 +6,14 @@ import { useAuth } from "../hooks/useAuth";
 import { useTasks } from "../hooks/useTasks";
 
 const Home: React.FC = () => {
-  const { user, loading: authLoading, login, logout, register } = useAuth();
+  const {
+    user,
+    loading: authLoading,
+    login,
+    logout,
+    register,
+    fetchUser,
+  } = useAuth();
   const {
     tasks,
     loading: tasksLoading,
@@ -14,18 +21,38 @@ const Home: React.FC = () => {
     addTask,
     toggleTask,
     deleteTask,
+    fetchTasks,
   } = useTasks();
   const [authMessage, setAuthMessage] = useState<string>("");
 
-  if (authLoading) return <div>Loading authentication...</div>;
+  useEffect(() => {
+    if (user) {
+      fetchTasks();
+    }
+  }, [user, fetchTasks]);
 
-  const handleAuthSuccess = (message: string) => {
+  const handleAuthSuccess = async (message: string) => {
     setAuthMessage(message);
+    await fetchUser();
+    if (user) {
+      await fetchTasks();
+    }
+    // Clear the message after 3 seconds
+    setTimeout(() => setAuthMessage(""), 3000);
   };
+
+  const handleLogout = () => {
+    logout();
+    setAuthMessage("Logged out successfully");
+    // Clear the message after 3 seconds
+    setTimeout(() => setAuthMessage(""), 3000);
+  };
+
+  if (authLoading) return <div>Loading authentication...</div>;
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4 text-white text-center mt-20 mb-10 text-nd">TASK MANAGEMENT SYSTEM</h1>
+      <h1 className="text-3xl font-bold mb-4 mt-20 text-center text-white">TASK MANAGEMENT SYSTEM</h1>
       {authMessage && (
         <div
           className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4"
@@ -38,8 +65,8 @@ const Home: React.FC = () => {
         <>
           <p className="mb-4 text-white">Welcome, {user.username}!</p>
           <button
-            onClick={logout}
-            className="mb-4 px-4 py-2 bg-black text-white font-bold	text-base rounded"
+            onClick={handleLogout}
+            className="mb-4 px-4 py-2 bg-red-500 text-white font-bold text-base rounded"
           >
             LOGOUT
           </button>

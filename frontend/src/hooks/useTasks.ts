@@ -1,17 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { Task } from "../types";
 import { api } from "../services/api";
 
 export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     setLoading(true);
     try {
       const { data } = await api.get<Task[]>("/tasks");
@@ -23,7 +19,7 @@ export function useTasks() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const addTask = async (title: string) => {
     try {
@@ -63,5 +59,5 @@ export function useTasks() {
     }
   };
 
-  return { tasks, loading, error, addTask, toggleTask, deleteTask };
+  return { tasks, loading, error, addTask, toggleTask, deleteTask, fetchTasks };
 }

@@ -17,7 +17,10 @@ export function useAuth() {
         console.error("Failed to fetch user", error);
         localStorage.removeItem("token");
         setAuthToken("");
+        setUser(null);
       }
+    } else {
+      setUser(null);
     }
     setLoading(false);
   }, []);
@@ -35,6 +38,7 @@ export function useAuth() {
       localStorage.setItem("token", data.access_token);
       setAuthToken(data.access_token);
       setUser(data.user);
+      return data.user;
     } catch (error) {
       console.error("Login failed", error);
       throw error;
@@ -42,27 +46,25 @@ export function useAuth() {
   };
 
   const register = async (username: string, password: string) => {
-    setLoading(true);
     try {
-      const { data } = await api.post<{ user: User; token: string }>("/users", {
-        username,
-        password,
-      });
+      const { data } = await api.post<{ access_token: string; user: User }>(
+        "/auth/register",
+        { username, password }
+      );
+      localStorage.setItem("token", data.access_token);
+      setAuthToken(data.access_token);
       setUser(data.user);
-      localStorage.setItem("token", data.token);
-      setAuthToken(data.token);
+      return data.user;
     } catch (error) {
       console.error("Registration failed", error);
       throw error;
-    } finally {
-      setLoading(false);
     }
   };
 
   const logout = () => {
-    setUser(null);
     localStorage.removeItem("token");
     setAuthToken("");
+    setUser(null);
   };
 
   return { user, loading, login, logout, register, fetchUser };
