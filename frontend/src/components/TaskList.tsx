@@ -18,7 +18,7 @@ const TaskList: React.FC<TaskListProps> = ({
   }
 
   return (
-    <ul className="mt-4">
+    <ul className="mt-4 text-white">
       {tasks.map((task) => (
         <TaskItem
           key={task.id}

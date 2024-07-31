@@ -24,8 +24,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ addTask }) => {
         className="mr-2 p-2 border rounded"
         data-testid="task-input"
       />
-      <button type="submit" className="p-2 bg-blue-500 text-white rounded">
-        Add Task
+      <button type="submit" className="p-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold text-base rounded">
+        ADD TASK
       </button>
     </form>
   );

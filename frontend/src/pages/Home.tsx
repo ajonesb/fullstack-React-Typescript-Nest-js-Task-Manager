@@ -25,7 +25,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Task Management System</h1>
+      <h1 className="text-3xl font-bold mb-4 text-white text-center mt-20 mb-10 text-nd">TASK MANAGEMENT SYSTEM</h1>
       {authMessage && (
         <div
           className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4"
@@ -36,12 +36,12 @@ const Home: React.FC = () => {
       )}
       {user ? (
         <>
-          <p className="mb-4">Welcome, {user.username}!</p>
+          <p className="mb-4 text-white">Welcome, {user.username}!</p>
           <button
             onClick={logout}
-            className="mb-4 px-4 py-2 bg-red-500 text-white rounded"
+            className="mb-4 px-4 py-2 bg-black text-white font-bold	text-base rounded"
           >
-            Logout
+            LOGOUT
           </button>
           <TaskForm addTask={addTask} />
           {tasksLoading ? (

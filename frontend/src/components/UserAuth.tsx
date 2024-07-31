@@ -35,7 +35,7 @@ const UserAuth: React.FC<UserAuthProps> = ({ login, register, onAuthSuccess }) =
 
   return (
     <div className="max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-4">
+      <h2 className="text-2xl font-bold mb-4 text-white">
         {isRegistering ? "Register" : "Login"}
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -59,9 +59,9 @@ const UserAuth: React.FC<UserAuthProps> = ({ login, register, onAuthSuccess }) =
         {error && <p className="text-red-500">{error}</p>}
         <button
           type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded"
+          className="w-full p-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold	text-base rounded"
         >
-          {isRegistering ? "Register" : "Login"}
+          {isRegistering ? "REGISTER" : "LOGIN"}
         </button>
       </form>
       <button
