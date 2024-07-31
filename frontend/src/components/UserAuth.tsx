@@ -34,7 +34,7 @@ const UserAuth: React.FC<UserAuthProps> = ({ login, register, onAuthSuccess }) =
   };
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto mt-20">
       <h2 className="text-2xl font-bold mb-4 text-white">
         {isRegistering ? "Register" : "Login"}
       </h2>
