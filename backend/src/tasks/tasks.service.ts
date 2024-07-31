@@ -1,5 +1,8 @@
-// src/tasks/tasks.service.ts
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -15,13 +18,17 @@ export class TasksService {
   ) {}
 
   async create(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
-    const task = this.tasksRepository.create({
-      ...createTaskDto,
-      user,
-    });
-    return await this.tasksRepository.save(task);
+    try {
+      const task = this.tasksRepository.create({
+        ...createTaskDto,
+        user,
+      });
+      return await this.tasksRepository.save(task);
+    } catch (error) {
+      console.error('Error creating task:', error);
+      throw new InternalServerErrorException('Could not create task');
+    }
   }
-
   async findAll(user: User): Promise<Task[]> {
     return await this.tasksRepository.find({
       where: { user: { id: user.id } },
@@ -43,7 +50,12 @@ export class TasksService {
     updateTaskDto: UpdateTaskDto,
     user: User,
   ): Promise<Task> {
-    const task = await this.findOne(id, user);
+    const task = await this.tasksRepository.findOne({
+      where: { id, user: { id: user.id } },
+    });
+    if (!task) {
+      throw new NotFoundException(`Task with ID "${id}" not found`);
+    }
     Object.assign(task, updateTaskDto);
     return await this.tasksRepository.save(task);
   }
