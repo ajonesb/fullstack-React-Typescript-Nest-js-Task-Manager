@@ -143,6 +143,8 @@ For deployment, you'll need to:
 
 This Task Management System demonstrates a full-stack JavaScript application with a clear separation of concerns, modern authentication practices, and a scalable architecture. It serves as a solid foundation for building more complex applications and can be extended with additional features as needed.
 
-![image](https://github.com/user-attachments/assets/0f17f666-7602-403c-942b-eba943294591)
+![image](https://github.com/user-attachments/assets/c4fdeaac-94c0-4abe-a84a-320ed077994b)
 
-![image](https://github.com/user-attachments/assets/371c4915-4934-4403-808f-893e6864c569)
+
+![image](https://github.com/user-attachments/assets/9a3a05fe-da01-4567-b7bc-0bf3a635b582)
+
