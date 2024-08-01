@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Task Management System is a full-stack web application built with React on the frontend and NestJS on the backend. 
+This Task Management System is a full-stack web application built with React on the frontend and NestJS on the backend.
 
 It allows users to register, log in, create tasks, mark them as complete, and delete them. The application demonstrates the use of modern web technologies and follows best practices in both frontend and backend development such as SOLID, DRY, KISS principles.
 
@@ -17,7 +17,7 @@ It allows users to register, log in, create tasks, mark them as complete, and de
 * React Router for navigation
 * Jest, Cypress, and React Testing Library for testing
 
-- Backend 
+- Backend
 
 * NestJS
 * TypeScript
@@ -127,7 +127,7 @@ PostgreSQL is used as the database, with TypeORM as the ORM (Object-Relational M
 ## Testing
 
 - Frontend: Run npm test in the frontend directory to run Jest tests.
-- Backend: Run npm run test in the backend directory for unit tests, and npm run test:e2e for end-to-end tests.
+  ** Testing is currently a work in progress. Some tests have been temporarily disabled or simplified to ensure a stable test environment. **
 
 ## Deployment
 
@@ -145,6 +145,4 @@ This Task Management System demonstrates a full-stack JavaScript application wit
 
 ![image](https://github.com/user-attachments/assets/c4fdeaac-94c0-4abe-a84a-320ed077994b)
 
-
 ![image](https://github.com/user-attachments/assets/9a3a05fe-da01-4567-b7bc-0bf3a635b582)
-
