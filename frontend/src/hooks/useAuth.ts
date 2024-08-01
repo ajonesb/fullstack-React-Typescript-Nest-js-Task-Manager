@@ -51,9 +51,9 @@ export function useAuth() {
         "/auth/register",
         { username, password }
       );
+      setUser(data.user);
       localStorage.setItem("token", data.access_token);
       setAuthToken(data.access_token);
-      setUser(data.user);
       return data.user;
     } catch (error) {
       console.error("Registration failed", error);
