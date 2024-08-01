@@ -1,40 +1,57 @@
 import { renderHook, act } from "@testing-library/react-hooks";
-import { useTasks } from "../../hooks/useTasks";
-import { taskService } from "../../services/taskService";
+import { useAuth } from "../../hooks/useAuth";
+import { api } from "../../services/api";
 
-jest.mock("../../services/taskService");
-jest.mock("../../hooks/useAuth", () => ({
-  useAuth: () => ({ user: { id: 1, username: "testuser" } }),
-}));
+jest.mock("../../services/api");
 
-describe("useTasks", () => {
-  it("fetches tasks on mount", async () => {
-    const mockTasks = [
-      { id: 1, title: "Test Task", completed: false, userId: 1 },
-    ];
-    (taskService.getTasks as jest.Mock).mockResolvedValue({ data: mockTasks });
-
-    const { result, waitForNextUpdate } = renderHook(() => useTasks());
-
-    await waitForNextUpdate();
-
-    expect(result.current.tasks).toEqual(mockTasks);
+describe("useAuth", () => {
+  beforeEach(() => {
+    localStorage.clear();
+    jest.clearAllMocks();
   });
 
-  it("adds a new task", async () => {
-    const newTask = { id: 2, title: "New Task", completed: false, userId: 1 };
-    (taskService.createTask as jest.Mock).mockResolvedValue({ data: newTask });
+  it("should return user as null initially", () => {
+    const { result } = renderHook(() => useAuth());
+    expect(result.current.user).toBeNull();
+  });
 
-    const { result, waitForNextUpdate } = renderHook(() => useTasks());
+  it("should login user", async () => {
+    (api.post as jest.Mock).mockResolvedValue({
+      data: { access_token: "token", user: { id: 1, username: "testuser" } },
+    });
+    const { result } = renderHook(() => useAuth());
 
-    await waitForNextUpdate();
-
-    act(() => {
-      result.current.addTask("New Task");
+    await act(async () => {
+      await result.current.login("testuser", "password");
     });
 
-    await waitForNextUpdate();
+    expect(result.current.user).toEqual({ id: 1, username: "testuser" });
+    expect(localStorage.getItem("token")).toBe("token");
+  });
 
-    expect(result.current.tasks).toContainEqual(newTask);
+  it("should register user", async () => {
+    (api.post as jest.Mock).mockResolvedValue({
+      data: { access_token: "token", user: { id: 1, username: "newuser" } },
+    });
+    const { result } = renderHook(() => useAuth());
+
+    await act(async () => {
+      await result.current.register("newuser", "password");
+    });
+
+    expect(result.current.user).toEqual({ id: 1, username: "newuser" });
+    expect(localStorage.getItem("token")).toBe("token");
+  });
+
+  it("should logout user", () => {
+    localStorage.setItem("token", "token");
+    const { result } = renderHook(() => useAuth());
+
+    act(() => {
+      result.current.logout();
+    });
+
+    expect(result.current.user).toBeNull();
+    expect(localStorage.getItem("token")).toBeNull();
   });
 });

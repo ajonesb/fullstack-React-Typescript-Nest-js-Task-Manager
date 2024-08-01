@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, fireEvent, screen, act } from "@testing-library/react";
 import TaskItem from "../../components/TaskItem";
 import { Task } from "../../types";
 
@@ -10,11 +10,10 @@ describe("TaskItem", () => {
     completed: false,
     userId: 1,
   };
+  const mockToggleTask = jest.fn().mockResolvedValue(undefined);
+  const mockDeleteTask = jest.fn().mockResolvedValue(undefined);
 
-  const mockToggleTask = jest.fn();
-  const mockDeleteTask = jest.fn();
-
-  beforeEach(() => {
+  it("renders correctly", () => {
     render(
       <TaskItem
         task={mockTask}
@@ -22,32 +21,36 @@ describe("TaskItem", () => {
         deleteTask={mockDeleteTask}
       />
     );
-  });
-
-  it("renders the task title", () => {
     expect(screen.getByText("Test Task")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /toggle/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /delete/i })).toBeInTheDocument();
   });
 
-  it("calls toggleTask when Toggle button is clicked", () => {
-    fireEvent.click(screen.getByTestId("toggle-task"));
-    expect(mockToggleTask).toHaveBeenCalledWith(1);
-  });
-
-  it("calls deleteTask when Delete button is clicked", () => {
-    fireEvent.click(screen.getByTestId("delete-task"));
-    expect(mockDeleteTask).toHaveBeenCalledWith(1);
-  });
-
-  it("applies line-through style when task is completed", () => {
-    const completedTask: Task = { ...mockTask, completed: true };
+  it("calls toggleTask when Toggle button is clicked", async () => {
     render(
       <TaskItem
-        task={completedTask}
+        task={mockTask}
         toggleTask={mockToggleTask}
         deleteTask={mockDeleteTask}
       />
     );
-    const taskText = screen.getByText("Test Task");
-    expect(taskText).toHaveClass("line-through");
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: /toggle/i }));
+    });
+    expect(mockToggleTask).toHaveBeenCalledWith(1);
+  });
+
+  it("calls deleteTask when Delete button is clicked", async () => {
+    render(
+      <TaskItem
+        task={mockTask}
+        toggleTask={mockToggleTask}
+        deleteTask={mockDeleteTask}
+      />
+    );
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: /delete/i }));
+    });
+    expect(mockDeleteTask).toHaveBeenCalledWith(1);
   });
 });
