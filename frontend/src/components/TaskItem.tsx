@@ -41,6 +41,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       <span className={task.completed ? "line-through" : ""}>{task.title}</span>
       <div>
         <button
+          data-testid="toggle-task"
           onClick={handleToggle}
           disabled={isUpdating}
           className="mr-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold	text-base	rounded"
@@ -48,6 +49,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
           {isUpdating ? "Updating..." : "TOGGLE"}
         </button>
         <button
+          data-testid="delete-task"
           onClick={handleDelete}
           className="px-2 py-2 bg-gradient-to-r bg-red-500 text-white font-bold	text-base rounded"
         >

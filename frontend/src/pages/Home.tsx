@@ -41,18 +41,29 @@ const Home: React.FC = () => {
     setTimeout(() => setAuthMessage(""), 3000);
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     setAuthMessage("Logged out successfully");
     // Clear the message after 3 seconds
     setTimeout(() => setAuthMessage(""), 3000);
   };
 
-  if (authLoading) return <div>Loading authentication...</div>;
+  if (authLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div
+          data-testid="loading-spinner"
+          className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"
+        ></div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4 mt-20 text-center text-white">TASK MANAGEMENT SYSTEM</h1>
+      <h1 className="text-3xl font-bold mb-4 mt-20 text-center text-white">
+        TASK MANAGEMENT SYSTEM
+      </h1>
       {authMessage && (
         <div
           className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4"
@@ -63,8 +74,11 @@ const Home: React.FC = () => {
       )}
       {user ? (
         <>
-          <p className="mb-4 text-white">Welcome, {user.username}!</p>
+          <p data-testid="welcome-message" className="mb-4 text-white">
+            Welcome, {user.username}!
+          </p>
           <button
+            data-testid="logout-button"
             onClick={handleLogout}
             className="mb-4 px-4 py-2 bg-red-500 text-white font-bold text-base rounded"
           >
@@ -72,9 +86,11 @@ const Home: React.FC = () => {
           </button>
           <TaskForm addTask={addTask} />
           {tasksLoading ? (
-            <div>Loading tasks...</div>
+            <div className="flex justify-center items-center h-32">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+            </div>
           ) : error ? (
-            <div>Error: {error}</div>
+            <div className="text-red-500">Error: {error}</div>
           ) : (
             <TaskList
               tasks={tasks}

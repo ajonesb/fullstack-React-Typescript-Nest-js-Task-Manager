@@ -61,10 +61,17 @@ export function useAuth() {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    // Immediately clear user state and token
+    setUser(null);
     localStorage.removeItem("token");
     setAuthToken("");
-    setUser(null);
+
+    try {
+      await api.post("/auth/logout");
+    } catch (error) {
+      console.error("Logout request failed", error);
+    }
   };
 
   return { user, loading, login, logout, register, fetchUser };

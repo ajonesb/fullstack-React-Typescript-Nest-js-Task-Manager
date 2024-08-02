@@ -44,6 +44,7 @@ const UserAuth: React.FC<UserAuthProps> = ({
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
+          data-testid="username-input"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -52,6 +53,7 @@ const UserAuth: React.FC<UserAuthProps> = ({
           required
         />
         <input
+          data-testid="password-input"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -62,6 +64,7 @@ const UserAuth: React.FC<UserAuthProps> = ({
         />
         {error && <p className="text-red-500">{error}</p>}
         <button
+          data-testid="auth-submit-button"
           type="submit"
           className="w-full p-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold	text-base rounded"
         >
@@ -69,6 +72,7 @@ const UserAuth: React.FC<UserAuthProps> = ({
         </button>
       </form>
       <button
+        data-testid="auth-toggle-button"
         onClick={() => setIsRegistering(!isRegistering)}
         className="mt-4 text-blue-500 underline"
       >

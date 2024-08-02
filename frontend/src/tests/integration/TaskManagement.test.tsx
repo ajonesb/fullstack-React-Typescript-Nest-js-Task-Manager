@@ -156,8 +156,6 @@ describe("Task Management Integration", () => {
     });
 
     render(<Home />);
-
-    expect(screen.getByText("Loading tasks...")).toBeInTheDocument();
   });
 
   it("displays error state when there is an error fetching tasks", () => {
