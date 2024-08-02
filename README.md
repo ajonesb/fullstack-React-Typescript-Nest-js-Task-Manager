@@ -124,10 +124,12 @@ PostgreSQL is used as the database, with TypeORM as the ORM (Object-Relational M
 3. Set up a PostgreSQL database and update the connection details in app.module.ts.
 4. Run npm run start:dev to start the NestJS server in development mode.
 
-## Testing
+## Testing - Unit, Integration, End to End
 
-- Frontend: Run npm test in the frontend directory to run Jest tests.
+- Frontend: 
+1. Unit Testing: Run `npm test` in the frontend directory to run all Jest unit tests.
   ** Testing is currently a work in progress. Some tests have been temporarily disabled or simplified to ensure a stable test environment. **
+2. run `npx cypress open` for end to end tests. 
 
 ## Deployment
 
