@@ -11,20 +11,29 @@ async function bootstrap() {
 
   // CORS for frontend
   app.enableCors({
-    origin: 'http://localhost:3000', // React frontend URL
+    origin: 'http://localhost:3000',
     credentials: true,
   });
 
-  // Swagger setup
+  // Swagger setup with JWT Bearer Auth
   const config = new DocumentBuilder()
     .setTitle('Task Management API')
     .setDescription('Task CRUD and Auth API for the fullstack React/NestJS project')
     .setVersion('1.0')
-    .addBearerAuth() // Adds JWT auth to Swagger UI
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'Authorization',
+        in: 'header',
+      },
+      'access-token', // Name used with @ApiBearerAuth('access-token')
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document); // Expose docs at /api
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(8080);
   console.log(`Application is running on: ${await app.getUrl()}`);
