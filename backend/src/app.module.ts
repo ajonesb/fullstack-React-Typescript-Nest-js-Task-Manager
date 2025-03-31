@@ -5,6 +5,10 @@ import { AuthModule } from './auth/auth.module';
 import { TasksModule } from './tasks/tasks.module';
 import { UsersModule } from './users/users.module';
 
+import * as crypto from 'crypto';
+(global as any).crypto = crypto;
+
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
